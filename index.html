@@ -7,6 +7,7 @@
     <meta http-equiv="refresh" content="16;url=https://rifqiistore.my.id/">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -16,6 +17,15 @@
         @keyframes slideIn {
             from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes counterAnimation {
+            from { transform: scale(1.1); }
+            to { transform: scale(1); }
+        }
+
+        .counter-animate {
+            animation: counterAnimation 0.5s ease-out;
         }
         
         .animate-fade {
@@ -65,11 +75,88 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+
+        .visitor-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .visitor-icon {
+            background: linear-gradient(45deg, #4776E6, #8E54E9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Audio control button styles */
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .audio-control:hover {
+            transform: scale(1.1);
+        }
+
+        .audio-control i {
+            background: linear-gradient(45deg, #4776E6, #8E54E9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 p-4">
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="audio.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Audio Control Button -->
+    <div id="audioControl" class="audio-control" onclick="toggleAudio()">
+        <i id="audioIcon" class="fas fa-volume-up text-xl"></i>
+    </div>
+
     <div class="max-w-md w-full animate-fade">
-        <div class="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl hover:scale-[1.02] transition-all duration-300">
+        <!-- Visitor Counter -->
+        <div class="text-center mb-4">
+            <div class="visitor-card">
+                <i class="fas fa-users visitor-icon text-xl"></i>
+                <div class="flex flex-col items-start">
+                    <div class="text-sm text-gray-600">Total Pengunjung</div>
+                    <div id="visitorCount" class="font-bold text-gray-800 counter-animate">
+                        Loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-effect rounded-2xl p-6 shadow-2xl hover:scale-[1.02] transition-all duration-300">
             <!-- Logo Image -->
             <div class="w-full flex justify-center mb-6">
                 <div class="image-border">
@@ -133,81 +220,90 @@
         </div>
     </div>
 
-    <!-- Audio Element with preload -->
-    <audio id="background-audio" preload="auto" loop>
-        <source src="audio.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
-        // Fungsi untuk memulai audio
-        function initAudio() {
-            const audio = document.getElementById('background-audio');
-            
-            // Fungsi untuk memulai audio
-            function playAudio() {
-                // Set volume rendah terlebih dahulu
-                audio.volume = 0;
-                
-                // Mulai putar audio
-                const playPromise = audio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        // Fade in volume selama 2 detik
-                        let vol = 0;
-                        const interval = setInterval(() => {
-                            if (vol < 0.5) {
-                                vol += 0.1;
-                                audio.volume = vol;
-                            } else {
-                                clearInterval(interval);
-                            }
-                        }, 200);
-                    }).catch(error => {
-                        console.log("Playback prevented:", error);
-                    });
-                }
+        // Audio autoplay and control
+        const audio = document.getElementById('bgMusic');
+        const audioIcon = document.getElementById('audioIcon');
+        let isPlaying = false;
+
+        // Function to play audio
+        function playAudio() {
+            audio.play()
+                .then(() => {
+                    isPlaying = true;
+                    audioIcon.classList.remove('fa-volume-mute');
+                    audioIcon.classList.add('fa-volume-up');
+                })
+                .catch(error => {
+                    console.log("Audio autoplay failed:", error);
+                });
+        }
+
+        // Function to toggle audio
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                audioIcon.classList.remove('fa-volume-up');
+                audioIcon.classList.add('fa-volume-mute');
+            } else {
+                audio.play();
+                audioIcon.classList.remove('fa-volume-mute');
+                audioIcon.classList.add('fa-volume-up');
             }
+            isPlaying = !isPlaying;
+        }
 
-            // Coba putar audio saat halaman dimuat
-            playAudio();
+        // Try to play audio when page loads
+        window.addEventListener('load', playAudio);
 
-            // Tambahkan event listener untuk interaksi pengguna
-            const startAudioOnInteraction = () => {
+        // Additional event listener for user interaction
+        document.addEventListener('click', function() {
+            if (!isPlaying) {
                 playAudio();
-                document.removeEventListener('click', startAudioOnInteraction);
-                document.removeEventListener('touchstart', startAudioOnInteraction);
-            };
+            }
+        }, { once: true });
 
-            document.addEventListener('click', startAudioOnInteraction);
-            document.addEventListener('touchstart', startAudioOnInteraction);
-        }
-
-        // Fungsi countdown dan progress bar
-        function initCountdown() {
-            let timeLeft = 16;
-            const timerElement = document.getElementById('timer');
-            const progressBar = document.getElementById('progress');
-
-            const countdown = setInterval(() => {
-                timeLeft--;
-                timerElement.textContent = timeLeft;
-                
-                const progress = ((16 - timeLeft) / 16) * 100;
-                progressBar.style.width = `${progress}%`;
-
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    window.location.href = 'https://rifqiistore.my.id/';
+        // Visitor counter animation
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentValue = Math.floor(progress * (end - start) + start);
+                element.textContent = currentValue.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    element.classList.add('counter-animate');
                 }
-            }, 1000);
+            };
+            window.requestAnimationFrame(step);
         }
 
-        // Inisialisasi saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', () => {
-            initAudio();
-            initCountdown();
-        });
+        // Visitor counter
+        let visitorCount = parseInt(localStorage.getItem('visitorCount') || '0');
+        visitorCount++;
+        localStorage.setItem('visitorCount', visitorCount);
+        const visitorElement = document.getElementById('visitorCount');
+        animateValue(visitorElement, 0, visitorCount, 1000);
+
+        // Timer and Progress Bar
+        let timeLeft = 16;
+        const timerElement = document.getElementById('timer');
+        const progressBar = document.getElementById('progress');
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            
+            const progress = ((16 - timeLeft) / 16) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = 'https://rifqiistore.my.id/';
+            }
+        }, 1000);
     </script>
 </body>
 </html>
