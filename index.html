@@ -57,7 +57,6 @@
             object-fit: cover;
         }
 
-        /* Improved loading animation */
         .loading-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
@@ -71,15 +70,14 @@
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 p-4">
     <div class="max-w-md w-full animate-fade">
         <div class="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl hover:scale-[1.02] transition-all duration-300">
-            <!-- Logo Image with improved error handling -->
+            <!-- Logo Image -->
             <div class="w-full flex justify-center mb-6">
                 <div class="image-border">
                     <div class="image-container">
                         <img 
-                            src="lw8jtv.jpg"
+                            src="foto.jpg"
                             alt="RifqiiStore Logo"
-                            class="circular-image hover:scale-105 transition-transform duration-300"
-                            onload="this.style.display='block'"
+                            class="circular-image"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
                         />
                         <div style="display:none" class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-600 font-semibold">
@@ -135,46 +133,81 @@
         </div>
     </div>
 
-    <!-- Audio Element -->
+    <!-- Audio Element with preload -->
     <audio id="background-audio" preload="auto" loop>
         <source src="audio.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        let timeLeft = 16;
-        const timerElement = document.getElementById('timer');
-        const progressBar = document.getElementById('progress');
-        const audioElement = document.getElementById('background-audio');
-
-        // Start audio as soon as possible
-        document.addEventListener('DOMContentLoaded', function() {
-            audioElement.load();
-            // Try to play audio immediately
-            const playPromise = audioElement.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Auto-playback failed:", error);
-                    // Add click event listener to start audio on first interaction
-                    document.body.addEventListener('click', function startAudio() {
-                        audioElement.play();
-                        document.body.removeEventListener('click', startAudio);
-                    }, { once: true });
-                });
-            }
-        });
-
-        const countdown = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = timeLeft;
+        // Fungsi untuk memulai audio
+        function initAudio() {
+            const audio = document.getElementById('background-audio');
             
-            const progress = ((16 - timeLeft) / 16) * 100;
-            progressBar.style.width = `${progress}%`;
-
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                window.location.href = 'https://rifqiistore.my.id/';
+            // Fungsi untuk memulai audio
+            function playAudio() {
+                // Set volume rendah terlebih dahulu
+                audio.volume = 0;
+                
+                // Mulai putar audio
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Fade in volume selama 2 detik
+                        let vol = 0;
+                        const interval = setInterval(() => {
+                            if (vol < 0.5) {
+                                vol += 0.1;
+                                audio.volume = vol;
+                            } else {
+                                clearInterval(interval);
+                            }
+                        }, 200);
+                    }).catch(error => {
+                        console.log("Playback prevented:", error);
+                    });
+                }
             }
-        }, 1000);
+
+            // Coba putar audio saat halaman dimuat
+            playAudio();
+
+            // Tambahkan event listener untuk interaksi pengguna
+            const startAudioOnInteraction = () => {
+                playAudio();
+                document.removeEventListener('click', startAudioOnInteraction);
+                document.removeEventListener('touchstart', startAudioOnInteraction);
+            };
+
+            document.addEventListener('click', startAudioOnInteraction);
+            document.addEventListener('touchstart', startAudioOnInteraction);
+        }
+
+        // Fungsi countdown dan progress bar
+        function initCountdown() {
+            let timeLeft = 16;
+            const timerElement = document.getElementById('timer');
+            const progressBar = document.getElementById('progress');
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                const progress = ((16 - timeLeft) / 16) * 100;
+                progressBar.style.width = `${progress}%`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = 'https://rifqiistore.my.id/';
+                }
+            }, 1000);
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            initAudio();
+            initCountdown();
+        });
     </script>
 </body>
 </html>
