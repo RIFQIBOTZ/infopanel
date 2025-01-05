@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Telah Pindah - RifqiiStore</title>
+    <meta http-equiv="refresh" content="16;url=https://rifqiistore.my.id/">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .animate-fade {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .animate-slide {
+            animation: slideIn 1s ease-out;
+        }
+
+        .progress-bar {
+            transition: width 1s linear;
+        }
+
+        /* Memastikan gambar tetap proporsional dalam lingkaran */
+        .circular-image {
+            aspect-ratio: 1;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Menambahkan border melingkar dengan efek gradient */
+        .image-border {
+            position: relative;
+            padding: 4px; /* Ketebalan border */
+            background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+            border-radius: 50%;
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 p-4">
+    <div class="max-w-xl w-full animate-fade">
+        <div class="bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-2xl hover:scale-[1.02] transition-all duration-300">
+            <!-- Logo Image dalam lingkaran -->
+            <div class="w-full flex justify-center mb-6">
+                <div class="image-border w-48 h-48 shadow-lg">
+                    <div class="image-container">
+                        <img 
+                            src="lw8jtv.jpg"
+                            alt="RifqiiStore Logo"
+                            class="circular-image hover:scale-105 transition-transform duration-300"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="text-center space-y-6 animate-slide">
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">
+                    Domain Kami Telah Pindah!
+                </h1>
+                
+                <div class="space-y-3">
+                    <p class="text-gray-600">
+                        Terima kasih telah mengunjungi vvip.rifqiistore.shop
+                    </p>
+                    <p class="text-gray-600">
+                        Kami telah memindahkan layanan kami ke domain baru:
+                    </p>
+                </div>
+
+                <!-- New Domain Button -->
+                <a
+                    href="https://rifqiistore.my.id/"
+                    class="inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    <span class="mr-2">rifqiistore.my.id</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                </a>
+
+                <!-- Countdown -->
+                <div class="mt-6 text-gray-500">
+                    <p>
+                        Anda akan dialihkan secara otomatis dalam 
+                        <span class="font-bold text-blue-500" id="timer">16</span> detik...
+                    </p>
+                </div>
+
+                <!-- Audio Control -->
+                <button
+                    onclick="toggleAudio()"
+                    class="mt-4 p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" id="musicIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Bar -->
+        <div class="mt-4 bg-white/30 rounded-full h-2 overflow-hidden">
+            <div 
+                id="progress"
+                class="h-full bg-gradient-to-r from-blue-500 to-purple-500 progress-bar"
+                style="width: 0%"
+            ></div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="background-audio" src="audio.mp3" loop></audio>
+
+    <script>
+        let timeLeft = 16;
+        const timerElement = document.getElementById('timer');
+        const progressBar = document.getElementById('progress');
+        const audioElement = document.getElementById('background-audio');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audioElement.pause();
+                musicIcon.style.color = '#6B7280';
+            } else {
+                audioElement.play();
+                musicIcon.style.color = '#3B82F6';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            
+            // Update progress bar
+            const progress = ((16 - timeLeft) / 16) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = 'https://rifqiistore.my.id/';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
