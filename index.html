@@ -19,15 +19,10 @@
             to { transform: translateY(0); opacity: 1; }
         }
         
-        @keyframes counterAnimation {
-            from { transform: scale(1.1); }
-            to { transform: scale(1); }
-        }
-
         .counter-animate {
             animation: counterAnimation 0.5s ease-out;
         }
-        
+
         .animate-fade {
             animation: fadeIn 1s ease-out;
         }
@@ -67,15 +62,6 @@
             object-fit: cover;
         }
 
-        .loading-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
         .visitor-card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -101,54 +87,19 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
-
-        /* Audio control button styles */
-        .audio-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .audio-control:hover {
-            transform: scale(1.1);
-        }
-
-        .audio-control i {
-            background: linear-gradient(45deg, #4776E6, #8E54E9);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 p-4">
-    <!-- Audio Element -->
-    <audio id="bgMusic" loop>
-        <source src="audio.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
+    <audio autoplay>
+        <source src="notifikasi.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
     </audio>
-
-    <!-- Audio Control Button -->
-    <div id="audioControl" class="audio-control" onclick="toggleAudio()">
-        <i id="audioIcon" class="fas fa-volume-up text-xl"></i>
-    </div>
-
     <div class="max-w-md w-full animate-fade">
-        <!-- Visitor Counter -->
         <div class="text-center mb-4">
             <div class="visitor-card">
-                <i class="fas fa-users visitor-icon text-xl"></i>
+                <i class="fas fa-network-wired visitor-icon text-xl"></i>
                 <div class="flex flex-col items-start">
-                    <div class="text-sm text-gray-600">Total Pengunjung</div>
+                    <div class="text-sm text-gray-600">Your IP</div>
                     <div id="visitorCount" class="font-bold text-gray-800 counter-animate">
                         Loading...
                     </div>
@@ -157,7 +108,6 @@
         </div>
 
         <div class="glass-effect rounded-2xl p-6 shadow-2xl hover:scale-[1.02] transition-all duration-300">
-            <!-- Logo Image -->
             <div class="w-full flex justify-center mb-6">
                 <div class="image-border">
                     <div class="image-container">
@@ -174,7 +124,6 @@
                 </div>
             </div>
 
-            <!-- Content -->
             <div class="text-center space-y-4 animate-slide">
                 <h1 class="text-2xl font-bold text-gray-800 mb-2">
                     Domain Kami Telah Pindah!
@@ -189,7 +138,6 @@
                     </p>
                 </div>
 
-                <!-- New Domain Button -->
                 <a
                     href="https://rifqiistore.my.id/"
                     class="inline-flex items-center justify-center px-6 py-3 font-medium text-white text-sm transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -200,7 +148,6 @@
                     </svg>
                 </a>
 
-                <!-- Countdown -->
                 <div class="mt-4 text-gray-500 text-sm">
                     <p>
                         Anda akan dialihkan secara otomatis dalam 
@@ -210,7 +157,6 @@
             </div>
         </div>
 
-        <!-- Loading Bar -->
         <div class="mt-4 bg-white/30 rounded-full h-1.5 overflow-hidden">
             <div 
                 id="progress"
@@ -221,73 +167,18 @@
     </div>
 
     <script>
-        // Audio autoplay and control
-        const audio = document.getElementById('bgMusic');
-        const audioIcon = document.getElementById('audioIcon');
-        let isPlaying = false;
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const visitorElement = document.getElementById('visitorCount');
+                visitorElement.textContent = data.ip;
+                visitorElement.classList.add('counter-animate');
+            })
+            .catch(error => {
+                console.error('Error fetching IP:', error);
+            });
+            
 
-        // Function to play audio
-        function playAudio() {
-            audio.play()
-                .then(() => {
-                    isPlaying = true;
-                    audioIcon.classList.remove('fa-volume-mute');
-                    audioIcon.classList.add('fa-volume-up');
-                })
-                .catch(error => {
-                    console.log("Audio autoplay failed:", error);
-                });
-        }
-
-        // Function to toggle audio
-        function toggleAudio() {
-            if (isPlaying) {
-                audio.pause();
-                audioIcon.classList.remove('fa-volume-up');
-                audioIcon.classList.add('fa-volume-mute');
-            } else {
-                audio.play();
-                audioIcon.classList.remove('fa-volume-mute');
-                audioIcon.classList.add('fa-volume-up');
-            }
-            isPlaying = !isPlaying;
-        }
-
-        // Try to play audio when page loads
-        window.addEventListener('load', playAudio);
-
-        // Additional event listener for user interaction
-        document.addEventListener('click', function() {
-            if (!isPlaying) {
-                playAudio();
-            }
-        }, { once: true });
-
-        // Visitor counter animation
-        function animateValue(element, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const currentValue = Math.floor(progress * (end - start) + start);
-                element.textContent = currentValue.toLocaleString();
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                } else {
-                    element.classList.add('counter-animate');
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // Visitor counter
-        let visitorCount = parseInt(localStorage.getItem('visitorCount') || '0');
-        visitorCount++;
-        localStorage.setItem('visitorCount', visitorCount);
-        const visitorElement = document.getElementById('visitorCount');
-        animateValue(visitorElement, 0, visitorCount, 1000);
-
-        // Timer and Progress Bar
         let timeLeft = 16;
         const timerElement = document.getElementById('timer');
         const progressBar = document.getElementById('progress');
