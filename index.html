@@ -1,350 +1,272 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Migration - RifqiiStore</title>
-    <meta http-equiv="refresh" content="30;url=https://panel.rifqiistore.my.id/">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>🚀 Migrasi Panel Elite - RifqiiStore</title>
+    <meta http-equiv="refresh" content="30;url=https://vip.rifqiistore.my.id/">
+    
+    <!-- Assets -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        @keyframes hologram {
-            0% { opacity: 0.8; filter: hue-rotate(0deg); }
-            50% { opacity: 1; filter: hue-rotate(180deg); }
-            100% { opacity: 0.8; filter: hue-rotate(360deg); }
+        :root {
+            --dark-blue: #1a237e;    /* Biru gelap */
+            --platinum: #e0e0e0;      /* Platinum abu-abu */
+            --obsidian: #000000;      /* Hitam */
+            --crystal: rgba(26,35,126,0.05);
         }
 
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        @keyframes glitch {
-            0% { clip-path: inset(40% 0 61% 0); }
-            20% { clip-path: inset(92% 0 1% 0); }
-            40% { clip-path: inset(43% 0 1% 0); }
-            60% { clip-path: inset(25% 0 58% 0); }
-            80% { clip-path: inset(54% 0 7% 0); }
-            100% { clip-path: inset(58% 0 43% 0); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        .scanline::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to bottom, 
-                rgba(0,255,255,0) 0%,
-                rgba(0,255,255,0.2) 10%,
-                rgba(0,255,255,0.2) 50%,
-                rgba(0,255,255,0) 90%);
-            animation: scanline 4s linear infinite;
-            pointer-events: none;
-        }
-
-        .hologram-effect {
-            animation: hologram 8s infinite ease-in-out;
-        }
-
-        .float-effect {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .glitch-effect {
-            position: relative;
-        }
-
-        .glitch-effect::before,
-        .glitch-effect::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0f172a;
-        }
-
-        .glitch-effect::before {
-            left: 2px;
-            text-shadow: -2px 0 #00ff00;
-            animation: glitch 0.3s infinite linear alternate-reverse;
-        }
-
-        .glitch-effect::after {
-            left: -2px;
-            text-shadow: 2px 0 #ff0000;
-            animation: glitch 0.3s infinite linear alternate;
-        }
-
-        .ai-button {
-            background: linear-gradient(45deg, #00ff88 0%, #00ffee 100%);
+        /* Cosmic Background Effect */
+        .universe-bg {
+            background: 
+                radial-gradient(circle at 70% 20%, var(--crystal) 0%, transparent 30%),
+                radial-gradient(circle at 30% 80%, var(--crystal) 0%, transparent 30%),
+                var(--obsidian);
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(0,255,136,0.5);
         }
 
-        .ai-button::before {
+        .universe-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, 
+                    transparent 0px, 
+                    transparent 2px, 
+                    var(--crystal) 2px, 
+                    var(--crystal) 4px),
+                repeating-linear-gradient(-45deg, 
+                    transparent 0px, 
+                    transparent 2px, 
+                    var(--crystal) 2px, 
+                    var(--crystal) 4px);
+        }
+
+        /* Holographic Card */
+        .holo-card {
+            background: linear-gradient(160deg, 
+                #000000 0%,
+                #001122 100%);
+            border: 2px solid var(--dark-blue);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .holo-card::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            background: linear-gradient(45deg, 
+                var(--dark-blue) 0%, 
+                transparent 50%, 
+                var(--dark-blue) 100%);
+            filter: blur(20px);
+            opacity: 0.3;
+            z-index: -1;
+            animation: holo-glow 4s infinite;
+        }
+
+        @keyframes holo-glow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Animated Steps */
+        .migration-step {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .migration-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.4rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            background: var(--dark-blue);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: step-pulse 1.5s infinite;
+        }
+
+        @keyframes step-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Premium Button */
+        .quantum-button {
+            background: linear-gradient(45deg, 
+                #000000 0%, 
+                rgba(26,35,126,0.2) 100%);
+            border: 1px solid var(--dark-blue);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quantum-button::after {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(255,255,255,0.1),
-                transparent
-            );
+            background: linear-gradient(45deg, 
+                transparent, 
+                rgba(26,35,126,0.1), 
+                transparent);
             transform: rotate(45deg);
-            animation: shimmer 2s infinite;
+            animation: quantum-stream 2s infinite;
         }
 
-        .whatsapp-button {
-            background: linear-gradient(45deg, #25D366, #128C7E);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .whatsapp-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle,
-                rgba(255,255,255,0.2) 0%,
-                transparent 50%
-            );
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes shimmer {
+        @keyframes quantum-stream {
             0% { transform: translateX(-100%) rotate(45deg); }
             100% { transform: translateX(100%) rotate(45deg); }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .cyber-border {
-            border: 2px solid rgba(0,255,136,0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cyber-border::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(0,255,136,0.4),
-                transparent
-            );
-            animation: scan 3s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .matrix-bg {
-            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
-                        repeating-linear-gradient(
-                            0deg,
-                            rgba(0,255,0,0.1) 0px,
-                            rgba(0,255,0,0.1) 1px,
-                            transparent 1px,
-                            transparent 2px
-                        );
-            background-size: cover, 100% 2px;
-            position: relative;
-        }
-
-        .matrix-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                circle at 50% 50%,
-                rgba(0,255,136,0.1) 0%,
-                rgba(0,0,0,0.9) 100%
-            );
+        .dark-blue-text {
+            color: var(--dark-blue);
+            text-shadow: 0 0 15px rgba(26,35,126,0.3);
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center matrix-bg p-4">
-    <audio autoplay>
-        <source src="notifikasi.mp3" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
-    </audio>
-    
-    <div class="max-w-2xl w-full relative scanline">
-        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 blur-3xl"></div>
-        
-        <div class="relative cyber-border bg-gray-900/90 backdrop-blur-xl rounded-2xl p-8 space-y-8 hologram-effect">
-            <!-- System Status -->
-            <div class="cyber-border bg-gray-800/50 p-4 rounded-lg">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-4">
-                        <div class="text-2xl text-cyan-400">
-                            <i class="fas fa-server"></i>
-                        </div>
-                        <div>
-                            <div class="text-sm text-cyan-300">SYSTEM STATUS</div>
-                            <div class="font-mono text-cyan-400">MIGRATION IN PROGRESS</div>
-                        </div>
-                    </div>
-                    <div id="visitorCount" class="text-right text-sm text-cyan-300"></div>
+
+<body class="min-h-screen text-gray-100 universe-bg flex items-center justify-center p-4">
+    <!-- Main Container -->
+    <div class="max-w-2xl w-full holo-card rounded-2xl p-8 space-y-8 backdrop-blur-xl transform perspective-1000">
+        <!-- Header Section -->
+        <header class="text-center space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-black/50 rounded-full border border-dark-blue/30">
+                <div class="w-2 h-2 bg-dark-blue rounded-full animate-pulse"></div>
+                <span class="text-sm dark-blue-text">LIVE MIGRATION IN PROGRESS</span>
+            </div>
+            <h1 class="text-4xl font-bold font-mono">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-dark-blue to-platinum">
+                    PANEL EVOLUTION
+                </span>
+            </h1>
+        </header>
+
+        <!-- Core Content -->
+        <div class="space-y-8">
+            <!-- Migration Steps -->
+            <div class="space-y-6">
+                <div class="migration-step">
+                    <h3 class="dark-blue-text text-lg font-bold mb-2">1. Kirim Data Akun Kamu</h3>
+                    <p class="text-gray-400 text-sm">
+                        Silakan share data akun panelmu via WhatsApp admin
+                        <span class="block mt-1 text-dark-blue/60 text-xs">
+                            <i class="fas fa-lock mr-1"></i>Jangan lupa sertakan: 
+                            Email, Username & Password
+                        </span>
+                    </p>
+                </div>
+                
+                <div class="migration-step">
+                    <h3 class="dark-blue-text text-lg font-bold mb-2">2. Konfirmasi Data</h3>
+                    <p class="text-gray-400 text-sm">
+                        Tim kami akan memproses data kamu maksimal 5 menit
+                        <span class="block mt-1 text-dark-blue/60 text-xs">
+                            <i class="fas fa-clock mr-1"></i>Notifikasi progress akan dikirim ke WhatsApp-mu
+                        </span>
+                    </p>
+                </div>
+
+                <div class="migration-step">
+                    <h3 class="dark-blue-text text-lg font-bold mb-2">3. Login ke Panel Baru</h3>
+                    <p class="text-gray-400 text-sm">
+                        Setelah dikonfirmasi, langsung bisa pakai panel baru
+                        <span class="block mt-1 text-dark-blue/60 text-xs">
+                            <i class="fas fa-shield-alt mr-1"></i>Dijamin aman dengan sistem enkripsi tingkat tinggi
+                        </span>
+                    </p>
                 </div>
             </div>
 
-            <!-- Main Content -->
-            <div class="text-center space-y-8">
-                <!-- AI Core Visualization -->
-                <div class="relative w-40 h-40 mx-auto float-effect">
-                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-xl opacity-50"></div>
-                    <img src="foto.jpg" 
-                         class="w-full h-full object-cover rounded-full border-4 border-cyan-400/50"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwMDAwMCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjMwIiBmaWxsPSIjZmZmIj5SUzwvdGV4dD48L3N2Zz4='">
-                </div>
-
-                <!-- Title -->
-                <div class="glitch-effect" data-text="SYSTEM MIGRATION ALERT">
-                    <h1 class="text-4xl font-bold text-cyan-400">
-                        SYSTEM MIGRATION ALERT
-                    </h1>
-                </div>
-
-                <!-- Message -->
-                <div class="space-y-4 text-cyan-200">
-                    <p class="text-lg">
-                        <i class="fas fa-network-wired mr-2"></i>
-                        Pterodactyl Panel Migration In Progress
-                    </p>
-                    <p class="text-sm opacity-80">
-                        New system coordinates: <span class="text-cyan-400">panel.rifqiistore.my.id</span>
-                    </p>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="grid gap-4 md:grid-cols-2">
-                    <!-- New Panel Button -->
-                    <a href="https://panel.rifqiistore.my.id/" 
-                       class="ai-button py-4 px-8 text-gray-900 font-bold rounded-lg flex items-center justify-center space-x-2 transform hover:scale-105 transition-all">
-                        <span>ACCESS NEW PANEL</span>
-                        <i class="fas fa-arrow-right-to-bracket"></i>
-                    </a>
-
-                    <!-- WhatsApp Button -->
-                    <a href="https://wa.me/62893663634511" 
-                       class="whatsapp-button py-4 px-8 text-white font-bold rounded-lg flex items-center justify-center space-x-2 transform hover:scale-105 transition-all">
-                        <span>SUBMIT PANEL DATA</span>
-                        <i class="fab fa-whatsapp text-xl"></i>
-                    </a>
-                </div>
-
-                <!-- Migration Timer -->
-                <div class="text-sm text-cyan-300/80">
-                    <p class="mb-2">
-                        <i class="fas fa-triangle-exclamation mr-2"></i>
-                        Critical: Submit panel data before auto-redirect
-                    </p>
-                    <div class="flex items-center justify-center space-x-2">
-                        <i class="fas fa-clock"></i>
-                        <span id="timer" class="font-mono text-lg">30</span>
-                        <span>seconds remaining</span>
-                    </div>
-                </div>
+            <!-- Action Grid -->
+            <div class="grid gap-4 md:grid-cols-2">
+                <a href="https://wa.me/6283852843517" 
+                   class="quantum-button p-4 rounded-xl flex items-center justify-center gap-2 
+                       hover:translate-y-[-2px] hover:shadow-glow">
+                    <i class="fab fa-whatsapp text-platinum"></i>
+                    Kirim Sekarang
+                    <div class="absolute right-4 top-3 w-2 h-2 bg-platinum rounded-full animate-pulse"></div>
+                </a>
+                
+                <a href="https://vip.rifqiistore.my.id"
+                   class="quantum-button p-4 rounded-xl flex items-center justify-center gap-2 
+                       hover:translate-y-[-2px] hover:shadow-glow">
+                    <i class="fas fa-shield-alt text-platinum"></i>
+                    Panel Baru
+                    <div class="absolute right-4 top-3 w-2 h-2 bg-platinum rounded-full animate-pulse"></div>
+                </a>
             </div>
         </div>
 
-        <!-- Progress Indicator -->
-        <div class="mt-8 h-2 bg-gray-800 rounded-full overflow-hidden cyber-border">
-            <div id="progress" 
-                 class="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500 transition-all duration-1000"
-                 style="width: 0%"></div>
+        <!-- Enhanced Countdown -->
+        <div class="pt-8 border-t border-dark-blue/10">
+            <div class="flex flex-col items-center space-y-2">
+                <div class="flex items-center gap-2 text-sm text-dark-blue/80">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span>Auto-redirect in:</span>
+                    <span id="timer" class="font-mono font-bold text-dark-blue">30</span>
+                    <span>seconds</span>
+                </div>
+                <div class="w-full bg-black/20 h-1 rounded-full overflow-hidden">
+                    <div id="progress" class="h-full bg-gradient-to-r from-dark-blue to-platinum 
+                        transition-all duration-1000 ease-linear"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Visitor IP Detection
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                const visitorElement = document.getElementById('visitorCount');
-                visitorElement.innerHTML = `
-                    <div class="flex items-center justify-end space-x-2">
-                        <i class="fas fa-user-shield text-cyan-400"></i>
-                        <span class="font-mono">${data.ip}</span>
-                    </div>
-                `;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('visitorCount').innerHTML = `
-                    <div class="flex items-center justify-end space-x-2">
-                        <i class="fas fa-user-shield text-red-400"></i>
-                        <span class="font-mono">ENCRYPTED</span>
-                    </div>
-                `;
-            });
+    <!-- Constellation Particles -->
+    <div class="constellation-particles"></div>
 
-        // Countdown System
+    <script>
+        // Constellation Generator
+        function createConstellation() {
+            const container = document.querySelector('.constellation-particles');
+            for(let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.style.cssText = `
+                    position: fixed;
+                    width: ${Math.random() * 3}px;
+                    height: ${Math.random() * 3}px;
+                    background: rgba(26,35,126,${Math.random() * 0.3});
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: twinkle ${Math.random() * 3 + 2}s infinite;
+                `;
+                container.appendChild(star);
+            }
+        }
+
+        // Quantum Countdown
         let timeLeft = 30;
         const timerElement = document.getElementById('timer');
         const progressBar = document.getElementById('progress');
-
+        
         const countdown = setInterval(() => {
             timeLeft--;
             timerElement.textContent = timeLeft;
+            progressBar.style.width = `${((30 - timeLeft)/30)*100}%`;
             
-            const progress = ((30 - timeLeft) / 30) * 100;
-            progressBar.style.width = `${progress}%`;
-
-            if (timeLeft <= 0) {
+            if(timeLeft <= 0) {
                 clearInterval(countdown);
-                window.location.href = 'https://panel.rifqiistore.my.id/';
+                window.location.href = 'https://vip.rifqiistore.my.id/';
             }
         }, 1000);
 
-        // Enhanced Button Interactions
-        document.querySelectorAll('a').forEach(button => {
-            button.addEventListener('mouseenter', () => {
-                button.style.transform = 'scale(1.05) translateY(-2px)';
-                button.style.filter = 'brightness(1.2)';
-            });
-            
-            button.addEventListener('mouseleave', () => {
-                button.style.transform = 'scale(1) translateY(0)';
-                button.style.filter = 'brightness(1)';
-            });
-        });
+        // Init
+        createConstellation();
+        new Audio('notifikasi.mp3').play().catch(() => {});
     </script>
 </body>
 </html>
