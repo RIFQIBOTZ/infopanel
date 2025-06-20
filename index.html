@@ -1,273 +1,181 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Migrasi Panel Elite - RifqiiStore</title>
-    <meta http-equiv="refresh" content="30;url=https://vip.rifqiistore.my.id/">
-    
-    <!-- Assets -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22></text></svg>">
+    <title>Domain Telah Pindah - RifqiiStore</title>
+    <meta http-equiv="refresh" content="16;url=https://panel.rifqiistore.my.id/">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <style>
-        :root {
-            --dark-blue: #1a237e;
-            --platinum: #e0e0e0;
-            --obsidian: #000000;
-            --crystal: rgba(26,35,126,0.05);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .animate-fade {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .animate-slide {
+            animation: slideIn 1s ease-out;
         }
 
-        /* Cosmic Background Effect */
-        .universe-bg {
-            background: 
-                radial-gradient(circle at 70% 20%, var(--crystal) 0%, transparent 30%),
-                radial-gradient(circle at 30% 80%, var(--crystal) 0%, transparent 30%),
-                var(--obsidian);
+        .progress-bar {
+            transition: width 1s linear;
+        }
+
+        /* Memastikan gambar tetap proporsional dalam lingkaran */
+        .circular-image {
+            aspect-ratio: 1;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Menambahkan border melingkar dengan efek gradient */
+        .image-border {
             position: relative;
+            padding: 4px; /* Ketebalan border */
+            background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+            border-radius: 50%;
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: 50%;
             overflow: hidden;
-        }
-
-        .universe-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: 
-                repeating-linear-gradient(45deg, 
-                    transparent 0px, 
-                    transparent 2px, 
-                    var(--crystal) 2px, 
-                    var(--crystal) 4px),
-                repeating-linear-gradient(-45deg, 
-                    transparent 0px, 
-                    transparent 2px, 
-                    var(--crystal) 2px, 
-                    var(--crystal) 4px);
-        }
-
-        /* Holographic Card */
-        .holo-card {
-            background: linear-gradient(160deg, 
-                #000000 0%,
-                #001122 100%);
-            border: 2px solid var(--dark-blue);
-            position: relative;
-            transform-style: preserve-3d;
-        }
-
-        .holo-card::before {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            background: linear-gradient(45deg, 
-                var(--dark-blue) 0%, 
-                transparent 50%, 
-                var(--dark-blue) 100%);
-            filter: blur(20px);
-            opacity: 0.3;
-            z-index: -1;
-            animation: holo-glow 4s infinite;
-        }
-
-        @keyframes holo-glow {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.4; }
-        }
-
-        /* Animated Steps */
-        .migration-step {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .migration-step::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.4rem;
-            width: 1.2rem;
-            height: 1.2rem;
-            background: var(--dark-blue);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            animation: step-pulse 1.5s infinite;
-        }
-
-        @keyframes step-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* Premium Button - Fixed */
-        .quantum-button {
-            background: linear-gradient(45deg, 
-                #000000 0%, 
-                rgba(26,35,126,0.2) 100%);
-            border: 1px solid var(--dark-blue);
-            position: relative;
-            overflow: visible;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .quantum-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, 
-                transparent, 
-                rgba(26,35,126,0.1), 
-                transparent);
-            transform: rotate(45deg);
-            animation: quantum-stream 2s infinite;
-            z-index: 1;
-        }
-
-        @keyframes quantum-stream {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        .dark-blue-text {
-            color: var(--dark-blue);
-            text-shadow: 0 0 15px rgba(26,35,126,0.3);
+            width: 100%;
+            height: 100%;
+            background: white;
         }
     </style>
 </head>
-
-<body class="min-h-screen text-gray-100 universe-bg flex items-center justify-center p-4">
-    <!-- Main Container -->
-    <div class="max-w-2xl w-full holo-card rounded-2xl p-8 space-y-8 backdrop-blur-xl transform perspective-1000">
-        <!-- Header Section -->
-        <header class="text-center space-y-6">
-            <div class="inline-flex items-center gap-2 px-4 py-2 bg-black/50 rounded-full border border-dark-blue/30">
-                <div class="w-2 h-2 bg-dark-blue rounded-full animate-pulse"></div>
-                <span class="text-sm dark-blue-text">LIVE MIGRATION IN PROGRESS</span>
-            </div>
-            <h1 class="text-4xl font-bold font-mono">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-dark-blue to-platinum">
-                    PANEL EVOLUTION
-                </span>
-            </h1>
-        </header>
-
-        <!-- Core Content -->
-        <div class="space-y-8">
-            <!-- Migration Steps -->
-            <div class="space-y-6">
-                <div class="migration-step">
-                    <h3 class="dark-blue-text text-lg font-bold mb-2">1. Kirim Data Akun Kamu</h3>
-                    <p class="text-gray-400 text-sm">
-                        Silakan share data akun panelmu via WhatsApp admin
-                        <span class="block mt-1 text-dark-blue/60 text-xs">
-                            <i class="fas fa-lock mr-1"></i>Jangan lupa sertakan: 
-                            Email, Username & Password
-                        </span>
-                    </p>
-                </div>
-                
-                <div class="migration-step">
-                    <h3 class="dark-blue-text text-lg font-bold mb-2">2. Konfirmasi Data</h3>
-                    <p class="text-gray-400 text-sm">
-                        Tim kami akan memproses data kamu maksimal 5 menit
-                        <span class="block mt-1 text-dark-blue/60 text-xs">
-                            <i class="fas fa-clock mr-1"></i>Notifikasi progress akan dikirim ke WhatsApp-mu
-                        </span>
-                    </p>
-                </div>
-
-                <div class="migration-step">
-                    <h3 class="dark-blue-text text-lg font-bold mb-2">3. Login ke Panel Baru</h3>
-                    <p class="text-gray-400 text-sm">
-                        Setelah dikonfirmasi, langsung bisa pakai panel baru
-                        <span class="block mt-1 text-dark-blue/60 text-xs">
-                            <i class="fas fa-shield-alt mr-1"></i>Dijamin aman dengan sistem enkripsi tingkat tinggi
-                        </span>
-                    </p>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 p-4">
+    <div class="max-w-xl w-full animate-fade">
+        <div class="bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-2xl hover:scale-[1.02] transition-all duration-300">
+            <!-- Logo Image dalam lingkaran -->
+            <div class="w-full flex justify-center mb-6">
+                <div class="image-border w-48 h-48 shadow-lg">
+                    <div class="image-container">
+                        <img 
+                            src="lw8jtv.jpg"
+                            alt="RifqiiStore Logo"
+                            class="circular-image hover:scale-105 transition-transform duration-300"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Action Grid - Fixed Buttons -->
-            <div class="grid gap-4 md:grid-cols-2">
-                <a href="https://wa.me/6283852843517" 
-                   class="quantum-button p-4 rounded-xl flex items-center justify-center gap-2 
-                       hover:translate-y-[-2px] hover:shadow-glow relative">
-                    <i class="fab fa-whatsapp text-platinum z-10"></i>
-                    <span class="z-10">Kirim Sekarang</span>
-                    <div class="absolute right-4 top-3 w-2 h-2 bg-platinum rounded-full animate-pulse z-20"></div>
-                </a>
+            <!-- Content -->
+            <div class="text-center space-y-6 animate-slide">
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">
+                    Domain Kami Telah Pindah!
+                </h1>
                 
-                <a href="https://vip.rifqiistore.my.id"
-                   class="quantum-button p-4 rounded-xl flex items-center justify-center gap-2 
-                       hover:translate-y-[-2px] hover:shadow-glow relative">
-                    <i class="fas fa-shield-alt text-platinum z-10"></i>
-                    <span class="z-10">Panel Baru</span>
-                    <div class="absolute right-4 top-3 w-2 h-2 bg-platinum rounded-full animate-pulse z-20"></div>
+                <div class="space-y-3">
+                    <p class="text-gray-600">
+                        Terima kasih telah mengunjungi <span class="font-semibold text-blue-600">rifqiistore.my.id</span>
+                    </p>
+                    <p class="text-gray-600">
+                        Kami telah memindahkan layanan kami ke domain baru:
+                    </p>
+                </div>
+
+                <!-- New Domain Button -->
+                <a
+                    href="https://panel.rifqiistore.my.id/"
+                    class="inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    <span class="mr-2">panel.rifqiistore.my.id</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
                 </a>
+
+                <!-- Countdown -->
+                <div class="mt-6 text-gray-500">
+                    <p>
+                        Anda akan dialihkan secara otomatis dalam 
+                        <span class="font-bold text-blue-500" id="timer">16</span> detik...
+                    </p>
+                </div>
+
+                <!-- Audio Control -->
+                <button
+                    onclick="toggleAudio()"
+                    class="mt-4 p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+                    title="Toggle Background Music"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" id="musicIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                    </svg>
+                </button>
             </div>
         </div>
 
-        <!-- Enhanced Countdown -->
-        <div class="pt-8 border-t border-dark-blue/10">
-            <div class="flex flex-col items-center space-y-2">
-                <div class="flex items-center gap-2 text-sm text-dark-blue/80">
-                    <i class="fas fa-hourglass-half"></i>
-                    <span>Auto-redirect in:</span>
-                    <span id="timer" class="font-mono font-bold text-dark-blue">30</span>
-                    <span>seconds</span>
-                </div>
-                <div class="w-full bg-black/20 h-1 rounded-full overflow-hidden">
-                    <div id="progress" class="h-full bg-gradient-to-r from-dark-blue to-platinum 
-                        transition-all duration-1000 ease-linear"></div>
-                </div>
-            </div>
+        <!-- Loading Bar -->
+        <div class="mt-4 bg-white/30 rounded-full h-2 overflow-hidden">
+            <div 
+                id="progress"
+                class="h-full bg-gradient-to-r from-blue-500 to-purple-500 progress-bar"
+                style="width: 0%"
+            ></div>
         </div>
     </div>
 
-    <!-- Constellation Particles -->
-    <div class="constellation-particles"></div>
+    <!-- Hidden Audio Element -->
+    <audio id="background-audio" src="audio.mp3" loop></audio>
 
     <script>
-        // Constellation Generator
-        function createConstellation() {
-            const container = document.querySelector('.constellation-particles');
-            for(let i = 0; i < 50; i++) {
-                const star = document.createElement('div');
-                star.style.cssText = `
-                    position: fixed;
-                    width: ${Math.random() * 3}px;
-                    height: ${Math.random() * 3}px;
-                    background: rgba(26,35,126,${Math.random() * 0.3});
-                    border-radius: 50%;
-                    left: ${Math.random() * 100}%;
-                    top: ${Math.random() * 100}%;
-                    animation: twinkle ${Math.random() * 3 + 2}s infinite;
-                `;
-                container.appendChild(star);
-            }
-        }
-
-        // Quantum Countdown
-        let timeLeft = 30;
+        let timeLeft = 16;
         const timerElement = document.getElementById('timer');
         const progressBar = document.getElementById('progress');
-        
+        const audioElement = document.getElementById('background-audio');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audioElement.pause();
+                musicIcon.style.color = '#6B7280';
+            } else {
+                audioElement.play().catch(e => {
+                    console.log('Audio play failed:', e);
+                });
+                musicIcon.style.color = '#3B82F6';
+            }
+            isPlaying = !isPlaying;
+        }
+
         const countdown = setInterval(() => {
             timeLeft--;
             timerElement.textContent = timeLeft;
-            progressBar.style.width = `${((30 - timeLeft)/30)*100}%`;
             
-            if(timeLeft <= 0) {
+            // Update progress bar
+            const progress = ((16 - timeLeft) / 16) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            if (timeLeft <= 0) {
                 clearInterval(countdown);
-                window.location.href = 'https://vip.rifqiistore.my.id/';
+                window.location.href = 'https://panel.rifqiistore.my.id/';
             }
         }, 1000);
 
-        // Init
-        createConstellation();
-        new Audio('notifikasi.mp3').play().catch(() => {});
+        // Handle audio autoplay policy
+        document.addEventListener('click', function() {
+            if (!isPlaying) {
+                audioElement.play().catch(e => {
+                    console.log('Audio play failed:', e);
+                });
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
