@@ -30,7 +30,6 @@
             transition: width 1s linear;
         }
 
-        /* Memastikan gambar tetap proporsional dalam lingkaran */
         .circular-image {
             aspect-ratio: 1;
             object-fit: cover;
@@ -38,10 +37,9 @@
             height: 100%;
         }
 
-        /* Menambahkan border melingkar dengan efek gradient */
         .image-border {
             position: relative;
-            padding: 4px; /* Ketebalan border */
+            padding: 4px;
             background: linear-gradient(45deg, #3B82F6, #8B5CF6);
             border-radius: 50%;
         }
@@ -54,9 +52,105 @@
             height: 100%;
             background: white;
         }
+
+        /* Styling untuk tombol play audio */
+        .audio-prompt {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(59, 130, 246, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .audio-prompt:hover {
+            background: rgba(59, 130, 246, 1);
+            transform: scale(1.05);
+        }
+
+        .audio-prompt.hidden {
+            display: none;
+        }
+
+        /* Overlay untuk prompt audio */
+        .audio-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .audio-modal button {
+            margin: 10px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-play {
+            background: #3B82F6;
+            color: white;
+        }
+
+        .btn-play:hover {
+            background: #2563EB;
+            transform: scale(1.05);
+        }
+
+        .btn-skip {
+            background: #6B7280;
+            color: white;
+        }
+
+        .btn-skip:hover {
+            background: #4B5563;
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 p-4">
+    
+    <!-- Audio Overlay Modal -->
+    <div id="audioOverlay" class="audio-overlay">
+        <div class="audio-modal">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">🎵 Dengarkan Musik Latar</h3>
+            <p class="text-gray-600 mb-6">Aktifkan musik latar untuk pengalaman yang lebih menyenangkan?</p>
+            <button id="playAudioBtn" class="btn-play">🔊 Ya, Putar Musik</button>
+            <button id="skipAudioBtn" class="btn-skip">🔇 Tidak, Terima Kasih</button>
+        </div>
+    </div>
+
+    <!-- Audio Control Button -->
+    <button id="audioToggle" class="audio-prompt hidden">
+        🔊 Musik: ON
+    </button>
+
     <div class="max-w-xl w-full animate-fade">
         <div class="bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-2xl hover:scale-[1.02] transition-all duration-300">
             <!-- Logo Image dalam lingkaran -->
@@ -120,25 +214,113 @@
     </div>
 
     <!-- Hidden Audio Element -->
-    <audio id="background-audio" src="audio.mp3" loop></audio>
+    <audio id="background-audio" src="audio.mp3" loop preload="auto"></audio>
 
     <script>
         let timeLeft = 30;
+        let audioPlaying = false;
+        let userInteracted = false;
+        
         const timerElement = document.getElementById('timer');
         const progressBar = document.getElementById('progress');
         const audioElement = document.getElementById('background-audio');
+        const audioOverlay = document.getElementById('audioOverlay');
+        const audioToggle = document.getElementById('audioToggle');
+        const playAudioBtn = document.getElementById('playAudioBtn');
+        const skipAudioBtn = document.getElementById('skipAudioBtn');
 
-        // Auto-play audio when page loads
-        window.addEventListener('load', function() {
-            audioElement.play().catch(e => {
-                console.log('Audio autoplay failed:', e);
-                // Try again on first user interaction
-                document.addEventListener('click', function() {
-                    audioElement.play().catch(e => console.log('Audio play failed:', e));
-                }, { once: true });
+        // Fungsi untuk memulai audio
+        function startAudio() {
+            audioElement.play().then(() => {
+                audioPlaying = true;
+                audioToggle.textContent = '🔊 Musik: ON';
+                audioToggle.classList.remove('hidden');
+                console.log('Audio started successfully');
+            }).catch(e => {
+                console.log('Audio failed to start:', e);
+                audioToggle.textContent = '🔇 Musik: OFF';
+                audioToggle.classList.remove('hidden');
             });
+        }
+
+        // Fungsi untuk menghentikan audio
+        function stopAudio() {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            audioPlaying = false;
+            audioToggle.textContent = '🔇 Musik: OFF';
+        }
+
+        // Event listeners untuk modal audio
+        playAudioBtn.addEventListener('click', () => {
+            audioOverlay.style.display = 'none';
+            userInteracted = true;
+            startAudio();
         });
 
+        skipAudioBtn.addEventListener('click', () => {
+            audioOverlay.style.display = 'none';
+            userInteracted = true;
+            audioToggle.textContent = '🔇 Musik: OFF';
+            audioToggle.classList.remove('hidden');
+        });
+
+        // Toggle audio control
+        audioToggle.addEventListener('click', () => {
+            if (audioPlaying) {
+                stopAudio();
+            } else {
+                startAudio();
+            }
+        });
+
+        // Deteksi berbagai jenis interaksi user
+        const userEvents = ['click', 'touchstart', 'keydown', 'scroll', 'mousemove'];
+        
+        function tryAutoplay() {
+            if (!userInteracted) {
+                // Coba autoplay tanpa modal dulu
+                audioElement.play().then(() => {
+                    audioPlaying = true;
+                    audioOverlay.style.display = 'none';
+                    audioToggle.textContent = '🔊 Musik: ON';
+                    audioToggle.classList.remove('hidden');
+                    console.log('Autoplay successful');
+                }).catch(() => {
+                    // Jika autoplay gagal, tampilkan modal
+                    console.log('Autoplay blocked, showing modal');
+                    // Modal sudah visible by default
+                });
+            }
+        }
+
+        // Coba autoplay setelah page load
+        window.addEventListener('load', () => {
+            setTimeout(tryAutoplay, 500);
+        });
+
+        // Coba autoplay pada interaksi user pertama
+        userEvents.forEach(event => {
+            document.addEventListener(event, function() {
+                if (!userInteracted && audioOverlay.style.display === 'none') {
+                    tryAutoplay();
+                }
+            }, { once: true, passive: true });
+        });
+
+        // Preload audio untuk performa lebih baik
+        audioElement.addEventListener('canplaythrough', () => {
+            console.log('Audio preloaded successfully');
+        });
+
+        // Error handling untuk audio
+        audioElement.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+            audioToggle.textContent = '❌ Musik: ERROR';
+            audioToggle.classList.remove('hidden');
+        });
+
+        // Countdown timer
         const countdown = setInterval(() => {
             timeLeft--;
             timerElement.textContent = timeLeft;
@@ -152,6 +334,20 @@
                 window.location.href = 'https://panel.rifqiistore.my.id/';
             }
         }, 1000);
+
+        // Tambahan: Coba autoplay pada visibility change (ketika user kembali ke tab)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && !userInteracted) {
+                setTimeout(tryAutoplay, 100);
+            }
+        });
+
+        // Tambahan: Coba autoplay pada focus window
+        window.addEventListener('focus', () => {
+            if (!userInteracted) {
+                setTimeout(tryAutoplay, 100);
+            }
+        });
     </script>
 </body>
 </html>
