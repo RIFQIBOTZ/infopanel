@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domain Telah Pindah - RifqiiStore</title>
-    <meta http-equiv="refresh" content="16;url=https://panel.rifqiistore.my.id/">
+    <meta http-equiv="refresh" content="30;url=https://panel.rifqiistore.my.id/">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -64,7 +64,7 @@
                 <div class="image-border w-48 h-48 shadow-lg">
                     <div class="image-container">
                         <img 
-                            src="lw8jtv.jpg"
+                            src="foto.jpg"
                             alt="RifqiiStore Logo"
                             class="circular-image hover:scale-105 transition-transform duration-300"
                         />
@@ -103,20 +103,9 @@
                 <div class="mt-6 text-gray-500">
                     <p>
                         Anda akan dialihkan secara otomatis dalam 
-                        <span class="font-bold text-blue-500" id="timer">16</span> detik...
+                        <span class="font-bold text-blue-500" id="timer">30</span> detik...
                     </p>
                 </div>
-
-                <!-- Audio Control -->
-                <button
-                    onclick="toggleAudio()"
-                    class="mt-4 p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
-                    title="Toggle Background Music"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" id="musicIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                    </svg>
-                </button>
             </div>
         </div>
 
@@ -134,32 +123,28 @@
     <audio id="background-audio" src="audio.mp3" loop></audio>
 
     <script>
-        let timeLeft = 16;
+        let timeLeft = 30;
         const timerElement = document.getElementById('timer');
         const progressBar = document.getElementById('progress');
         const audioElement = document.getElementById('background-audio');
-        const musicIcon = document.getElementById('musicIcon');
-        let isPlaying = false;
 
-        function toggleAudio() {
-            if (isPlaying) {
-                audioElement.pause();
-                musicIcon.style.color = '#6B7280';
-            } else {
-                audioElement.play().catch(e => {
-                    console.log('Audio play failed:', e);
-                });
-                musicIcon.style.color = '#3B82F6';
-            }
-            isPlaying = !isPlaying;
-        }
+        // Auto-play audio when page loads
+        window.addEventListener('load', function() {
+            audioElement.play().catch(e => {
+                console.log('Audio autoplay failed:', e);
+                // Try again on first user interaction
+                document.addEventListener('click', function() {
+                    audioElement.play().catch(e => console.log('Audio play failed:', e));
+                }, { once: true });
+            });
+        });
 
         const countdown = setInterval(() => {
             timeLeft--;
             timerElement.textContent = timeLeft;
             
             // Update progress bar
-            const progress = ((16 - timeLeft) / 16) * 100;
+            const progress = ((30 - timeLeft) / 30) * 100;
             progressBar.style.width = `${progress}%`;
 
             if (timeLeft <= 0) {
@@ -167,15 +152,6 @@
                 window.location.href = 'https://panel.rifqiistore.my.id/';
             }
         }, 1000);
-
-        // Handle audio autoplay policy
-        document.addEventListener('click', function() {
-            if (!isPlaying) {
-                audioElement.play().catch(e => {
-                    console.log('Audio play failed:', e);
-                });
-            }
-        }, { once: true });
     </script>
 </body>
 </html>
