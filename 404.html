@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<script>
+  // Redirect semua URL yang tidak ada ke beranda
+  const ROOT = 'https://panel.rifqiistore.my.id/';
+  // Hindari loop: hanya redirect jika bukan root
+  if (location.pathname !== '/' || location.search || location.hash) {
+    location.replace(ROOT);
+  }
+</script>
+<noscript>
+  <!-- Fallback untuk browser tanpa JS -->
+  <meta http-equiv="refresh" content="0; url=/" />
+</noscript>
