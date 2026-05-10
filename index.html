@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domain Telah Pindah - RifqiiStore</title>
-    <meta http-equiv="refresh" content="30;url=https://vip.rifqiistore.shop/">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -139,16 +138,16 @@
     <!-- Audio Overlay Modal -->
     <div id="audioOverlay" class="audio-overlay">
         <div class="audio-modal">
-            <h3 class="text-xl font-bold mb-4 text-gray-800">🎵 Dengarkan Musik Latar</h3>
+            <h3 class="text-xl font-bold mb-4 text-gray-800"> Dengarkan Musik Latar</h3>
             <p class="text-gray-600 mb-6">Aktifkan musik latar untuk pengalaman yang lebih menyenangkan?</p>
-            <button id="playAudioBtn" class="btn-play">🔊 Ya, Putar Musik</button>
-            <button id="skipAudioBtn" class="btn-skip">🔇 Tidak, Terima Kasih</button>
+            <button id="playAudioBtn" class="btn-play"> Ya, Putar Musik</button>
+            <button id="skipAudioBtn" class="btn-skip"> Tidak, Terima Kasih</button>
         </div>
     </div>
 
     <!-- Audio Control Button -->
     <button id="audioToggle" class="audio-prompt hidden">
-        🔊 Musik: ON
+         Musik: ON
     </button>
 
     <div class="max-w-xl w-full animate-fade">
@@ -175,7 +174,7 @@
                 
                 <div class="space-y-3">
                     <p class="text-gray-600">
-                        Terima kasih telah mengunjungi <span class="font-semibold text-blue-600">vvip.rifqiistore.shop</span>
+                        Terima kasih telah mengunjungi <span id="cfg-url-lama" class="font-semibold text-blue-600">vvip.rifqiistore.shop</span>
                     </p>
                     <p class="text-gray-600">
                         Kami telah memindahkan layanan kami ke domain baru:
@@ -184,10 +183,11 @@
 
                 <!-- New Domain Button -->
                 <a
+                    id="cfg-link-baru"
                     href="https://vip.rifqiistore.shop/"
                     class="inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                    <span class="mr-2">vip.rifqiistore.shop</span>
+                    <span id="cfg-label-baru" class="mr-2">vip.rifqiistore.shop</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
@@ -199,6 +199,18 @@
                         Anda akan dialihkan secara otomatis dalam 
                         <span class="font-bold text-blue-500" id="timer">30</span> detik...
                     </p>
+                </div>
+
+                <!-- WhatsApp Contact (dari config) -->
+                <div id="cfg-wa-wrapper" style="display:none;" class="mt-2">
+                    <a id="cfg-wa-link" href="#" target="_blank"
+                        class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-semibold text-sm transition-all duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.054 23.617a.75.75 0 00.92.92l5.763-1.476A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.714 9.714 0 01-4.951-1.354l-.355-.211-3.681.943.97-3.58-.232-.368A9.712 9.712 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+                        </svg>
+                        Hubungi Kami via WhatsApp
+                    </a>
                 </div>
             </div>
         </div>
@@ -217,9 +229,21 @@
     <audio id="background-audio" src="audio.mp3" loop preload="auto"></audio>
 
     <script>
+        //  Konfigurasi default (fallback jika config.json tidak ditemukan) 
+        const DEFAULT_CONFIG = {
+            nama_toko: "RifqiiStore",
+            url_lama: "vvip.rifqiistore.shop",
+            url_baru: "https://vip.rifqiistore.shop/",
+            url_baru_label: "vip.rifqiistore.shop",
+            whatsapp: "",
+            countdown_detik: 30
+        };
+
         let timeLeft = 30;
+        let redirectUrl = DEFAULT_CONFIG.url_baru;
         let audioPlaying = false;
         let userInteracted = false;
+        let countdownStarted = false;
         
         const timerElement = document.getElementById('timer');
         const progressBar = document.getElementById('progress');
@@ -229,29 +253,65 @@
         const playAudioBtn = document.getElementById('playAudioBtn');
         const skipAudioBtn = document.getElementById('skipAudioBtn');
 
-        // Fungsi untuk memulai audio
+        //  Fungsi apply config ke DOM 
+        function applyConfig(cfg) {
+            const c = Object.assign({}, DEFAULT_CONFIG, cfg);
+
+            // Title halaman
+            document.title = `Domain Telah Pindah - ${c.nama_toko}`;
+
+            // Domain lama
+            document.getElementById('cfg-url-lama').textContent = c.url_lama;
+
+            // Domain baru (link & label)
+            document.getElementById('cfg-link-baru').href = c.url_baru;
+            document.getElementById('cfg-label-baru').textContent = c.url_baru_label || c.url_baru;
+
+            // Countdown & redirect URL
+            timeLeft = parseInt(c.countdown_detik) || 30;
+            redirectUrl = c.url_baru;
+            timerElement.textContent = timeLeft;
+
+            // WhatsApp � tampilkan hanya jika diisi
+            if (c.whatsapp) {
+                const waNum = c.whatsapp.replace(/\D/g, '');
+                document.getElementById('cfg-wa-link').href = `https://wa.me/${waNum}`;
+                document.getElementById('cfg-wa-wrapper').style.display = '';
+            }
+
+            // Mulai countdown setelah config siap
+            startCountdown();
+        }
+
+        //  Load config.json 
+        fetch('config.json')
+            .then(r => r.json())
+            .then(cfg => applyConfig(cfg))
+            .catch(() => applyConfig(DEFAULT_CONFIG));
+
+        //  Fungsi untuk memulai audio 
         function startAudio() {
             audioElement.play().then(() => {
                 audioPlaying = true;
-                audioToggle.textContent = '🔊 Musik: ON';
+                audioToggle.textContent = ' Musik: ON';
                 audioToggle.classList.remove('hidden');
                 console.log('Audio started successfully');
             }).catch(e => {
                 console.log('Audio failed to start:', e);
-                audioToggle.textContent = '🔇 Musik: OFF';
+                audioToggle.textContent = ' Musik: OFF';
                 audioToggle.classList.remove('hidden');
             });
         }
 
-        // Fungsi untuk menghentikan audio
+        //  Fungsi untuk menghentikan audio 
         function stopAudio() {
             audioElement.pause();
             audioElement.currentTime = 0;
             audioPlaying = false;
-            audioToggle.textContent = '🔇 Musik: OFF';
+            audioToggle.textContent = ' Musik: OFF';
         }
 
-        // Event listeners untuk modal audio
+        //  Event listeners untuk modal audio 
         playAudioBtn.addEventListener('click', () => {
             audioOverlay.style.display = 'none';
             userInteracted = true;
@@ -261,11 +321,11 @@
         skipAudioBtn.addEventListener('click', () => {
             audioOverlay.style.display = 'none';
             userInteracted = true;
-            audioToggle.textContent = '🔇 Musik: OFF';
+            audioToggle.textContent = ' Musik: OFF';
             audioToggle.classList.remove('hidden');
         });
 
-        // Toggle audio control
+        //  Toggle audio control 
         audioToggle.addEventListener('click', () => {
             if (audioPlaying) {
                 stopAudio();
@@ -274,32 +334,28 @@
             }
         });
 
-        // Deteksi berbagai jenis interaksi user
+        //  Deteksi berbagai jenis interaksi user 
         const userEvents = ['click', 'touchstart', 'keydown', 'scroll', 'mousemove'];
         
         function tryAutoplay() {
             if (!userInteracted) {
-                // Coba autoplay tanpa modal dulu
                 audioElement.play().then(() => {
                     audioPlaying = true;
                     audioOverlay.style.display = 'none';
-                    audioToggle.textContent = '🔊 Musik: ON';
+                    audioToggle.textContent = ' Musik: ON';
                     audioToggle.classList.remove('hidden');
                     console.log('Autoplay successful');
                 }).catch(() => {
-                    // Jika autoplay gagal, tampilkan modal
                     console.log('Autoplay blocked, showing modal');
-                    // Modal sudah visible by default
                 });
             }
         }
 
-        // Coba autoplay setelah page load
+        //  Coba autoplay setelah page load 
         window.addEventListener('load', () => {
             setTimeout(tryAutoplay, 500);
         });
 
-        // Coba autoplay pada interaksi user pertama
         userEvents.forEach(event => {
             document.addEventListener(event, function() {
                 if (!userInteracted && audioOverlay.style.display === 'none') {
@@ -308,41 +364,45 @@
             }, { once: true, passive: true });
         });
 
-        // Preload audio untuk performa lebih baik
+        //  Preload audio 
         audioElement.addEventListener('canplaythrough', () => {
             console.log('Audio preloaded successfully');
         });
 
-        // Error handling untuk audio
+        //  Error handling untuk audio 
         audioElement.addEventListener('error', (e) => {
             console.error('Audio error:', e);
-            audioToggle.textContent = '❌ Musik: ERROR';
+            audioToggle.textContent = ' Musik: ERROR';
             audioToggle.classList.remove('hidden');
         });
 
-        // Countdown timer
-        const countdown = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = timeLeft;
-            
-            // Update progress bar
-            const progress = ((30 - timeLeft) / 30) * 100;
-            progressBar.style.width = `${progress}%`;
+        //  Countdown timer (dipanggil setelah config siap) 
+        function startCountdown() {
+            if (countdownStarted) return;
+            countdownStarted = true;
 
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                window.location.href = 'https://vip.rifqiistore.shop/';
-            }
-        }, 1000);
+            const totalTime = timeLeft;
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                const progress = ((totalTime - timeLeft) / totalTime) * 100;
+                progressBar.style.width = `${progress}%`;
 
-        // Tambahan: Coba autoplay pada visibility change (ketika user kembali ke tab)
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = redirectUrl;
+                }
+            }, 1000);
+        }
+
+        //  Tambahan: autoplay pada visibility change 
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && !userInteracted) {
                 setTimeout(tryAutoplay, 100);
             }
         });
 
-        // Tambahan: Coba autoplay pada focus window
         window.addEventListener('focus', () => {
             if (!userInteracted) {
                 setTimeout(tryAutoplay, 100);
